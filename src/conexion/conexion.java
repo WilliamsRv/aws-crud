@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class conexion {
-    static String URL = "jdbc:mysql://localhost:33061/db_consultas?useUnicode=true&characterEncoding=UTF-8&useSSL=false";
-    static String USER = "root";
-    static String PASSWORD = "williams3101";
+    static String URL = "jdbc:mysql://mysql.cx6ywqwc6n1s.us-east-1.rds.amazonaws.com:3306/users";
+    static String USER = "admin";
+    static String PASSWORD = "Polula3128";
     
     
 
@@ -23,6 +23,7 @@ public class conexion {
             System.out.println("Error al conectar a la base de datos: " + e.getMessage());
         }
         return con;
+        
     }
 
     public static void main(String[] args) {
@@ -34,5 +35,6 @@ public class conexion {
                 System.out.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
+        
     }
 }

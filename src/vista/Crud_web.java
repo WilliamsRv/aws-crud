@@ -13,54 +13,54 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Williams
+ * @author Lab9
  */
-public class FechasCivicas extends javax.swing.JFrame {
+public class Crud_web extends javax.swing.JFrame {
 
     /**
-     * Creates new form FechasCivicas
+     * Creates new form Crud_web
      */
-    public FechasCivicas() {
+    public Crud_web() {
         initComponents();
         listar();
     }
-    
     conexion conexion = new conexion();
     Connection cn;
     Statement st;
     ResultSet rs;
     DefaultTableModel modelo;
-    String Fecha;
+    int id;
 
     void listar() {
-        String sql = "select*from calendario";
+        String sql = "select*from users";
         try {
             cn = conexion.getConnection();
             st = cn.createStatement();
             rs = st.executeQuery(sql);
-            Object[] calendario = new Object[4];
+            Object[] users = new Object[4];
             modelo = (DefaultTableModel) TablaDatos.getModel();
             while (rs.next()) {
-                calendario[0] = rs.getString("id");
-                calendario[1] = rs.getString("DATECAL");
-                calendario[2] = rs.getString("NAMECAL");
-                calendario[3] = rs.getString("DESCCAL");
-                modelo.addRow(calendario);
+                users[0] = rs.getInt("id");
+                users[1] = rs.getString("nombres");
+                users[2] = rs.getString("apellidos");
+                users[3] = rs.getString("email");
+                modelo.addRow(users);
             }
             TablaDatos.setModel(modelo);
         } catch (Exception e) {
-            System.out.println("error al listar");
+            System.out.println("error al listar 'users'");
         }
     }
 
     void agregar() {
-        String NombreEvent = txteven.getText();
-        String fecha= txtfecha.getText();
-        String descripcion = txtdesc.getText();
-        if (NombreEvent.equals("") || fecha.equals("")|| descripcion.equals("")) {
+       
+        String Nombres = txtnombres.getText();
+        String Apellidos = txtapellidos.getText();
+        String Email = txtemail.getText();
+        if (Nombres.equals("")|| Apellidos.equals("")|| Email.equals("")) {
             JOptionPane.showMessageDialog(null, "Casillas vacias!!");
         } else {
-            String sql = "INSERT INTO calendario (NAMECAL,DESCCAL,DATECAL ) VALUES ('"+NombreEvent+"', '"+descripcion+"', STR_TO_DATE('"+fecha+"', '%Y-%m-%d'))";
+            String sql = "insert into users (Nombres, Apellidos, Email)values('" + Nombres+ "','" + Apellidos + "', '" + Email+ "')";
             try {
                 cn = conexion.getConnection();
                 st = cn.createStatement();
@@ -79,12 +79,11 @@ public class FechasCivicas extends javax.swing.JFrame {
     }
 
     void modificar() {
-        int id = Integer.parseInt(txtID.getText());
-        String NombreEvent = txteven.getText();
-        String fecha= txtfecha.getText();
-        String descripcion = txtdesc.getText();
-        String sql = "UPDATE calendario SET NAMECAL = '"+NombreEvent+"', DATECAL = '"+fecha+"', DESCCAL = '"+descripcion+"' WHERE id='"+id+"'";
-        if (fecha.equals("")) {
+        String Nombres = txtnombres.getText();
+        String Apellidos = txtapellidos.getText();
+        String Email = txtemail.getText();
+        String sql = "update users set Nombres='" + Nombres + "',Apellidos='" + Apellidos + "', Email='" + Email + "' where id=" + id;
+        if (Nombres.equals("")|| Apellidos.equals("")|| Email.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingrese los datos..!!");
         } else {
             try {
@@ -99,17 +98,16 @@ public class FechasCivicas extends javax.swing.JFrame {
     }
 
     void eliminar() {
-        int id = Integer.parseInt(txtID.getText());
         int filaSeleccionada = TablaDatos.getSelectedRow();
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione el usuario a elminar");
         } else {
-            String sql = "delete from calendario where id="+id;
+            String sql = "delete from persona where id="+id;
             try {
                 cn = conexion.getConnection();
                 st = cn.createStatement();
                 st.executeUpdate(sql);
-                JOptionPane.showMessageDialog(null,"Fecha eliminado exitosamente");
+                JOptionPane.showMessageDialog(null,"Usuario eliminado exitosamente");
                 limpiartable();
                 
             } catch (Exception e) {
@@ -118,13 +116,12 @@ public class FechasCivicas extends javax.swing.JFrame {
         }
     }
     void nuevo(){
-        txtID.setText(String.valueOf(""));
-        txtfecha.setText("");
-        txteven.setText("");
-        txtdesc.setText("");
+        txtid.setText("");
+        txtnombres.setText("");
+        txtapellidos.setText("");
+        txtid.requestFocus();
         
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -140,16 +137,16 @@ public class FechasCivicas extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txteven = new javax.swing.JTextField();
-        txtdesc = new javax.swing.JTextField();
-        txtfecha = new javax.swing.JTextField();
-        txtID = new javax.swing.JTextField();
+        txtid = new javax.swing.JTextField();
+        txtemail = new javax.swing.JTextField();
+        txtnombres = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtapellidos = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnAgregar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnnuevo = new javax.swing.JButton();
-        btndesactivar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaDatos = new javax.swing.JTable();
@@ -159,28 +156,31 @@ public class FechasCivicas extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(22, 85, 140));
 
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Fechas Civicas");
+        jLabel1.setText("CRUD-WEB");
 
         jPanel2.setBackground(new java.awt.Color(19, 52, 99));
 
         jLabel2.setBackground(new java.awt.Color(22, 85, 140));
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Fecha");
+        jLabel2.setText("ID:");
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Nombre de evento");
+        jLabel3.setText("EMAIL:");
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Descripcion");
+        jLabel4.setText("NOMBRES:");
 
-        txtfecha.addActionListener(new java.awt.event.ActionListener() {
+        txtid.setEditable(false);
+        txtid.setBackground(new java.awt.Color(255, 255, 255));
+        txtid.setEnabled(false);
+        txtid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtfechaActionPerformed(evt);
+                txtidActionPerformed(evt);
             }
         });
 
-        txtID.setEditable(false);
-        txtID.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("APELLIDOS:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -191,38 +191,36 @@ public class FechasCivicas extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
                 .addGap(24, 24, 24)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtdesc)
-                        .addComponent(txtfecha, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
-                    .addComponent(txteven, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtnombres, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtemail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                    .addComponent(txtid)
+                    .addComponent(txtapellidos))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txteven, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                    .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(txtdesc, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(txtnombres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtapellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtemail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38))
         );
 
         jPanel3.setBackground(new java.awt.Color(19, 52, 99));
@@ -275,38 +273,20 @@ public class FechasCivicas extends javax.swing.JFrame {
             }
         });
 
-        btndesactivar.setBackground(new java.awt.Color(22, 85, 140));
-        btndesactivar.setForeground(new java.awt.Color(255, 255, 255));
-        btndesactivar.setText("Desactivar");
-        btndesactivar.setMaximumSize(new java.awt.Dimension(86, 25));
-        btndesactivar.setMinimumSize(new java.awt.Dimension(86, 25));
-        btndesactivar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btndesactivarMouseClicked(evt);
-            }
-        });
-        btndesactivar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btndesactivarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(20, 20, 20)
                 .addComponent(btnAgregar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btndesactivar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addComponent(btnnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,8 +296,7 @@ public class FechasCivicas extends javax.swing.JFrame {
                     .addComponent(btnAgregar)
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnnuevo)
-                    .addComponent(btndesactivar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnnuevo))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -330,7 +309,7 @@ public class FechasCivicas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Fecha", "Nombre de evento", "Descripcion"
+                "ID", "NOMBRES", "APELLIDOS:", "EMAIL:"
             }
         ));
         TablaDatos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -339,14 +318,17 @@ public class FechasCivicas extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(TablaDatos);
+        if (TablaDatos.getColumnModel().getColumnCount() > 0) {
+            TablaDatos.getColumnModel().getColumn(0).setMaxWidth(50);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jScrollPane2)
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -362,25 +344,25 @@ public class FechasCivicas extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(198, 198, 198)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(219, 219, 219)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -391,21 +373,29 @@ public class FechasCivicas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 518, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 625, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(58, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtidActionPerformed
 
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
         // TODO add your handling code here:
@@ -444,32 +434,19 @@ public class FechasCivicas extends javax.swing.JFrame {
     private void TablaDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaDatosMouseClicked
         // TODO add your handling code here:
         int fila = TablaDatos.getSelectedRow();
-        if (fila == -2) {
-            JOptionPane.showMessageDialog(null, "Fecha no seleccionado");
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(null, "Usuario no seleccionado");
         } else {
-            
-            int id = Integer.parseInt(TablaDatos.getValueAt(fila, 0).toString());
-            String NombreEvent = (String) TablaDatos.getValueAt(fila, 2).toString();
-            String fecha= (String) TablaDatos.getValueAt(fila, 1).toString();
-            String descripcion = (String) TablaDatos.getValueAt(fila, 3).toString();
-            txtID.setText(String.valueOf(id));
-            txtfecha.setText(fecha);
-            txteven.setText(NombreEvent);
-            txtdesc.setText(descripcion);
+            id = Integer.parseInt((String) TablaDatos.getValueAt(fila, 0).toString());
+            String Nombres = (String) TablaDatos.getValueAt(fila, 1).toString();
+            String Apellidos = (String) TablaDatos.getValueAt(fila, 2).toString();
+            String Email = (String) TablaDatos.getValueAt(fila, 3).toString();
+            txtid.setText("" + id);
+            txtnombres.setText(Nombres);
+            txtapellidos.setText(Apellidos);
+            txtemail.setText(Email);
         }
     }//GEN-LAST:event_TablaDatosMouseClicked
-
-    private void btndesactivarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btndesactivarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btndesactivarMouseClicked
-
-    private void btndesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndesactivarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btndesactivarActionPerformed
-
-    private void txtfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfechaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtfechaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -488,20 +465,20 @@ public class FechasCivicas extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FechasCivicas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Crud_web.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FechasCivicas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Crud_web.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FechasCivicas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Crud_web.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FechasCivicas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Crud_web.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FechasCivicas().setVisible(true);
+                new Crud_web().setVisible(true);
             }
         });
     }
@@ -511,20 +488,20 @@ public class FechasCivicas extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btndesactivar;
     private javax.swing.JButton btnnuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtdesc;
-    private javax.swing.JTextField txteven;
-    private javax.swing.JTextField txtfecha;
+    private javax.swing.JTextField txtapellidos;
+    private javax.swing.JTextField txtemail;
+    private javax.swing.JTextField txtid;
+    private javax.swing.JTextField txtnombres;
     // End of variables declaration//GEN-END:variables
 }
