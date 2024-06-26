@@ -102,7 +102,7 @@ public class Crud_web extends javax.swing.JFrame {
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(null, "Seleccione el usuario a elminar");
         } else {
-            String sql = "delete from persona where id="+id;
+            String sql = "delete from users where id="+id;
             try {
                 cn = conexion.getConnection();
                 st = cn.createStatement();
