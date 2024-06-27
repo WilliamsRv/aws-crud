@@ -118,7 +118,10 @@ public class Principal extends javax.swing.JFrame {
         txtdni.requestFocus();
         
     }
-    
+    void mostrarVentana() {
+        setVisible(true); // Hace visible esta ventana
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
+    }
     
 
     /**

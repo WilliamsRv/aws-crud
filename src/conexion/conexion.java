@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class conexion {
-    static String URL = "jdbc:mysql://mysql.cx6ywqwc6n1s.us-east-1.rds.amazonaws.com:3306/users";
+    static String URL = "jdbc:mysql://mysql.cx6ywqwc6n1s.us-east-1.rds.amazonaws.com:3306/db_consultas";
     static String USER = "admin";
     static String PASSWORD = "Polula3128";
     
