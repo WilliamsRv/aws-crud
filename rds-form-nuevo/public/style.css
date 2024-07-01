@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #4e9ddd56;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formulario {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    margin-top: 150px;
+    margin-bottom: 20px;
+}
+
+.formulario h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formulario form {
+   
+  
+    flex-direction: column;
+}
+
+.formulario label {
+    margin-bottom: 10px;
+}
+
+.formulario input, .formulario select, .formulario textarea {
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #33638a;
+    color: #ffffff;
+}
+
+.formulario button {
+    background-color: #224cbe;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tabla {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 800px;
+}
+
+.tabla h2 {
+    text-align: center;
+    margin-top: 0;
+    padding: 20px;
+}
+
+.tabla table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla th, .tabla td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #3c6ba0;
+}
+
+.tabla thead {
+    background-color: #224cbe;
+    color: #ffffff;
+}
+
+.tabla tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+.tabla tbody tr:last-child {
+    border-bottom: 2px solid #009879;
+}

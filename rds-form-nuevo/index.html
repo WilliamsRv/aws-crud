@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario con Tabla</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="formulario">
+            <h1>Formulario</h1>
+            <form id="user-form">
+                <input type="text" id="nombres" placeholder="nombres" required>
+                <input type="text" id="apellidos" placeholder="apellidos" required>
+                <input type="date" id="fecha" placeholder="fecha" required>
+                <input type="text" id="productos" placeholder="productos" required>
+                <input type="text" id="cantidad" placeholder="cantidad" required>
+                <input type="text" id="informacion" placeholder="informacion" required>
+                <button type="submit">Agregar </button>
+              </form>
+                
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+        
+        <div class="tabla">
+            <h2>Tabla de Resultados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Información Adicional</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- Aquí se insertarán las filas de la tabla -->
+                  </tbody>
+                </table>
+            </table>
+        </div>
+    </div>
+    <script src="/public/script.js"></script>
+</body>
+</html>
