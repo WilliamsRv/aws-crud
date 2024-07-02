@@ -126,6 +126,10 @@ public class FechasCivicas extends javax.swing.JFrame {
         txtdesc.setText("");
         
     }
+    void mostrarVentana() {
+        setVisible(true); // Hace visible esta ventana
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
+    }
     
 
     /**

@@ -16,6 +16,10 @@ public class ListaFechasDesactivadas extends javax.swing.JFrame {
     public ListaFechasDesactivadas() {
         initComponents();
     }
+    void mostrarVentana() {
+        setVisible(true); // Hace visible esta ventana
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

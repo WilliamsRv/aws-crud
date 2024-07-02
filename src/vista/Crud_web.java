@@ -20,6 +20,10 @@ public class Crud_web extends javax.swing.JFrame {
     /**
      * Creates new form Crud_web
      */
+     void mostrarVentana() {
+        setVisible(true); // Hace visible esta ventana
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
+    }
     public Crud_web() {
         initComponents();
         listar();
@@ -123,6 +127,7 @@ public class Crud_web extends javax.swing.JFrame {
         txtid.requestFocus();
         
     }
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
