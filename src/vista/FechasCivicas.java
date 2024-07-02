@@ -5,9 +5,14 @@
 package vista;
 
 import conexion.conexion;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,8 +29,24 @@ public class FechasCivicas extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         listar();
+        txtfecha.setText("yyyy-MM-dd");
+        txtfecha.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (txtfecha.getText().equals("yyyy-MM-dd")) {
+                    txtfecha.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (txtfecha.getText().isEmpty()) {
+                    txtfecha.setText("yyyy-MM-dd");
+                }
+            }
+        });
     }
-    
+
     conexion conexion = new conexion();
     Connection cn;
     Statement st;
@@ -56,12 +77,12 @@ public class FechasCivicas extends javax.swing.JFrame {
 
     void agregar() {
         String NombreEvent = txteven.getText();
-        String fecha= txtfecha.getText();
+        String fecha = txtfecha.getText();
         String descripcion = txtdesc.getText();
-        if (NombreEvent.equals("") || fecha.equals("")|| descripcion.equals("")) {
+        if (NombreEvent.equals("") || fecha.equals("") || descripcion.equals("")) {
             JOptionPane.showMessageDialog(null, "Casillas vacias!!");
         } else {
-            String sql = "INSERT INTO calendario (NAMECAL,DESCCAL,DATECAL ) VALUES ('"+NombreEvent+"', '"+descripcion+"', STR_TO_DATE('"+fecha+"', '%Y-%m-%d'))";
+            String sql = "INSERT INTO calendario (NAMECAL,DESCCAL,DATECAL ) VALUES ('" + NombreEvent + "', '" + descripcion + "', STR_TO_DATE('" + fecha + "', '%Y-%m-%d'))";
             System.out.println("erroa al agregar");
             try {
                 cn = conexion.getConnection();
@@ -83,9 +104,9 @@ public class FechasCivicas extends javax.swing.JFrame {
     void modificar() {
         int id = Integer.parseInt(txtID.getText());
         String NombreEvent = txteven.getText();
-        String fecha= txtfecha.getText();
+        String fecha = txtfecha.getText();
         String descripcion = txtdesc.getText();
-        String sql = "UPDATE calendario SET NAMECAL = '"+NombreEvent+"', DATECAL = '"+fecha+"', DESCCAL = '"+descripcion+"' WHERE id='"+id+"'";
+        String sql = "UPDATE calendario SET NAMECAL = '" + NombreEvent + "', DATECAL = '" + fecha + "', DESCCAL = '" + descripcion + "' WHERE id='" + id + "'";
         if (fecha.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingrese los datos..!!");
         } else {
@@ -103,9 +124,9 @@ public class FechasCivicas extends javax.swing.JFrame {
     void eliminar() {
         int id = Integer.parseInt(txtID.getText());
         String NombreEvent = txteven.getText();
-        String fecha= txtfecha.getText();
+        String fecha = txtfecha.getText();
         String descripcion = txtdesc.getText();
-        String sql = "UPDATE calendario SET STATUS = 'I' WHERE id='"+id+"'";
+        String sql = "UPDATE calendario SET STATUS = 'I' WHERE id='" + id + "'";
         if (fecha.equals("")) {
             JOptionPane.showMessageDialog(null, "Ingrese los datos..!!");
         } else {
@@ -119,18 +140,19 @@ public class FechasCivicas extends javax.swing.JFrame {
             }
         }
     }
-    void nuevo(){
+
+    void nuevo() {
         txtID.setText(String.valueOf(""));
         txtfecha.setText("");
         txteven.setText("");
         txtdesc.setText("");
-        
+
     }
+
     void mostrarVentana() {
         setVisible(true); // Hace visible esta ventana
         setLocationRelativeTo(null); // Centra la ventana en pantalla
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -452,10 +474,10 @@ public class FechasCivicas extends javax.swing.JFrame {
         if (fila == -2) {
             JOptionPane.showMessageDialog(null, "Fecha no seleccionado");
         } else {
-            
+
             int id = Integer.parseInt(TablaDatos.getValueAt(fila, 0).toString());
             String NombreEvent = (String) TablaDatos.getValueAt(fila, 2).toString();
-            String fecha= (String) TablaDatos.getValueAt(fila, 1).toString();
+            String fecha = (String) TablaDatos.getValueAt(fila, 1).toString();
             String descripcion = (String) TablaDatos.getValueAt(fila, 3).toString();
             txtID.setText(String.valueOf(id));
             txtfecha.setText(fecha);
@@ -464,8 +486,30 @@ public class FechasCivicas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TablaDatosMouseClicked
 
+
     private void txtfechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfechaActionPerformed
-        // TODO add your handling code here:
+        String input = txtfecha.getText().trim();
+
+        // Definir el formato deseado (año-mes-día)
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            // Intentar convertir el texto ingresado a un objeto LocalDate
+            LocalDate fecha = LocalDate.parse(input, dateFormatter);
+
+            // Si la conversión fue exitosa, actualizar el texto del campo de texto
+            txtfecha.setText(dateFormatter.format(fecha));
+
+            // Aquí podrías utilizar 'fecha' para realizar alguna acción con la fecha ingresada
+        } catch (DateTimeParseException e) {
+            // En caso de que la entrada no pueda ser parseada según el formato deseado
+            // Aquí podrías manejar el error como mejor te convenga, por ejemplo:
+            JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Debe ser año-mes-día (yyyy-MM-dd)", "Error de formato", JOptionPane.ERROR_MESSAGE);
+
+            // También podrías limpiar el campo de texto o realizar otra acción adecuada
+            txtfecha.setText("");
+            txtfecha.requestFocus(); // Devolver el foco al campo de texto
+        }// TODO add your handling code here:
     }//GEN-LAST:event_txtfechaActionPerformed
 
     private void txtevenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtevenActionPerformed
@@ -473,7 +517,7 @@ public class FechasCivicas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtevenActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       Principal principal = new Principal();
+        Principal principal = new Principal();
         // Llama al método para mostrar la ventana
         principal.mostrarVentana();
         // TODO add your handling code here:

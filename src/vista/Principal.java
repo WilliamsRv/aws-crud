@@ -47,7 +47,7 @@ public class Principal extends javax.swing.JFrame {
             }
             TablaDatos.setModel(modelo);
         } catch (Exception e) {
-            System.out.println("error");
+            System.out.println("error al listar");
         }
     }
 

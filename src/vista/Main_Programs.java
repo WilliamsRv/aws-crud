@@ -35,6 +35,7 @@ public class Main_Programs extends javax.swing.JFrame {
         setBackground(new java.awt.Color(51, 51, 255));
 
         jPanel1.setBackground(new java.awt.Color(19, 52, 99));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
         btnWeb.setBackground(new java.awt.Color(22, 85, 140));
         btnWeb.setForeground(new java.awt.Color(255, 255, 255));
